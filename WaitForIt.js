@@ -249,5 +249,4 @@ function WaitForNode(selector, settings){
     }, settings);
 }
 WaitForNode.prototype = Object.create(WaitForIt.prototype);
-WaitForIt.prototype.constructor = WaitForNode;
 
