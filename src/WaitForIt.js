@@ -1,6 +1,7 @@
 /**
  * @author Guillaume Lebedel
  * @file Implements the WaitForIt and WaitForNode classes (Promise-like implementation)
+ * @version 1.0
  * resolves when the passed by condition is true
  * rejects when the maximum number of iterations has been reached
  * notify every time the condition is checked
@@ -41,62 +42,51 @@
  * @property {function[]} callbacks.progress callbacks executed when promise notifies
  */
 function WaitForIt(condition, settings) {
-    /** @property {Number} trials number of times the condition is checked and progress callbacks are called */
     settings = settings || {};
-    /** @property {Number} intervalTime=250 the time between each condition checks in ms */
     this.intervalTime = settings.intervalTime || 250;
-    /** @property {Number} maxInterval=50 the maximum number of checks which will be executed before being rejected */
     this.maxInterval = settings.maxInterval || 50;
-   /** @property {condition} function which will resolve the promise when it returns true  */
     this.condition = condition;
-    /** @property {Number} trials number of times the condition is checked and progress callbacks are called  */
     this.trials = 0;
-    /** @property {Object} callbacks contains all promise callbacks */
     this.callbacks = {
-        /** @property {function[]} callbacks~done callbacks executed when promise is resolved */
         done: settings.done ? [settings.done] : [],
-        /** @property {function[]} callbacks#fail callbacks executed when promise is rejected */
         fail: settings.fail? [settings.fail] : [],
-        /** @property {function[]} callbacks#always callbacks executed when promise is resolved or rejected */
         always: settings.always ?[settings.always] : [],
-        /** @property {function[]} callbacks#progress callbacks executed when promise notifies */
         progress: settings.progress? [settings.progress] : []
     };
 }
 
 /**
+ * @namespace WaitForIt
  * @type {{state: string, start: Function, executeCallbacks: Function, notify: Function, resolve: Function, reject: Function, done: Function, fail: Function, always: Function, progress: Function}}
  */
 WaitForIt.prototype = {
     /**
      * current state of the promise can be: "stalled", "pending", "resolved" and "rejected"
      * @type {string}
-     * @defaultvalue
+     * @memberof WaitForIt
      */
     state: "stalled",
 
     /**
-     * @method start starts the interval which will execute callbacks depending on state of the promise
-     * @namespace WaitForIt#start
-     * @alias WaitForIt#start
+     * starts the interval which will execute callbacks depending on state of the promise
+     * @memberof WaitForIt
+     * @instance
+     * @method start
      */
     start: function () {
         var self = this;
         //(re)initialize the trial count
         self.trials = 0;
-        //conditions is a function
-        if (typeof self.condition === "function")
-            setTimeout(loop, self.intervalTime);
-        return this;
 
         /**
-         * check whether the condition can be resolved or not
+         * private member of {@link WaitForIt#start} checks whether the condition can be resolved or not and:
          * <br/>calls {@link WaitForIt#notify} when {@link WaitForIt#condition} is checked
          * <br/>calls {@link WaitForIt#resolve} when promise is done
          * <br/>calls {@link WaitForIt#reject} when promise fails
-         * @memberof WaitForIt#start
+         * @memberof! WaitForIt#
+         * @alias start#loop
          */
-        function loop() {
+        var loop = function() {
             var conditionResult = self.condition();
             self.notify(null, [self, conditionResult]);
             if (conditionResult) {
@@ -106,7 +96,12 @@ WaitForIt.prototype = {
             } else {
                 self.timeout = setTimeout(loop, self.intervalTime);
             }
-        }
+        };
+        //conditions is a function
+        if (typeof self.condition === "function")
+            setTimeout(loop, self.intervalTime);
+        return this;
+
     },
 
     /**
@@ -114,6 +109,7 @@ WaitForIt.prototype = {
      * @param {!string} callbackType type of callbacks to execute
      * @param {?object} opt_cb_context context with which to execute the progress callbacks
      * @param {?object} opt_cb_arguments arguments to pass to the progress callbacks
+     * @instance
      */
     executeCallbacks: function (callbackType, opt_cb_context, opt_cb_arguments) {
         if (callbackType instanceof Array)
@@ -133,6 +129,7 @@ WaitForIt.prototype = {
      * @param {?object} opt_context context with which to execute the progress callbacks
      * @param {?object} opt_arguments arguments to pass to the progress callbacks
      * @returns {WaitForIt} current instance
+     * @instance
      */
     notify: function (opt_context, opt_arguments) {
         this.state = "pending";
@@ -146,6 +143,7 @@ WaitForIt.prototype = {
      * @param {?object} opt_context context with which to execute the progress callbacks
      * @param {?object} opt_arguments arguments to pass to the progress callbacks
      * @returns {WaitForIt} current instance
+     * @instance
      */
     resolve: function (opt_context, opt_arguments) {
         this.state = "resolved";
@@ -159,6 +157,7 @@ WaitForIt.prototype = {
      * @param {?object} opt_context context with which to execute the progress callbacks
      * @param {?object} opt_arguments arguments to pass to the progress callbacks
      * @returns {WaitForIt} current instance
+     * @instance
      */
     reject: function (opt_context, opt_arguments) {
         this.state = "rejected";
@@ -169,8 +168,9 @@ WaitForIt.prototype = {
 
     /**
      * adds a done callback which will be executed when promise is resolved
-     * @param callback
+     * @param {!function} callback to execute when condition resolved
      * @returns {WaitForIt} current instance
+     * @instance
      * @example <caption>Add a success callback printing the number of checks before promise was resolved</caption>
      * window.cd = undefined;
      * var test = new WaitForIt(()=>window.cd);
@@ -184,8 +184,9 @@ WaitForIt.prototype = {
 
     /**
      * adds a fail  callback which will be executed when promise is rejected
-     * @param callback
+     * @param {!function} callback to execute when condition resolved
      * @returns {WaitForIt} current instance
+     * @instance
      * @example <caption>add a fail callback printing the code of the condition fonction</caption>
      * window.cd = undefined;
      * var test = new WaitForIt(()=>window.cd);
@@ -200,8 +201,9 @@ WaitForIt.prototype = {
 
     /**
      * adds an always callback which will be executed when promise is rejected or resolved
-     * @param callback
+     * @param {!function} callback to execute when condition resolved
      * @returns {WaitForIt} current instance
+     * @instance
      * @example <caption>add an always callback printing the status of promise</caption>
      * window.cd = undefined;
      * var test = new WaitForIt(()=>window.randomVar);
@@ -221,7 +223,8 @@ WaitForIt.prototype = {
 
     /**
      * adds a progress callback which will be executed when promise is notified
-     * @param callback
+     * @param {!function} callback to execute when condition resolved
+     * @instance
      * @returns {WaitForIt} current instance
      */
     progress: function (callback) {
