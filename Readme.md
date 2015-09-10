@@ -18,14 +18,22 @@ simple wrapper of the [WaitForIt](#waitforit) class with the WaitForIt#condition
 
 
 **trials**: `Number` , number of times the condition is checked and progress callbacks are called
+
 **intervalTime**: `Number` , the time between each condition checks in ms
+
 **maxInterval**: `Number` , the maximum number of checks which will be executed before being rejected
+
 **function**: `condition` , which will resolve the promise when it returns true
+
 **callbacks**: `Object` , contains all promise callbacks
-**callbacks.done**: `Array.&lt;function()&gt;` , callbacks executed when promise is resolved
-**callbacks.always**: `Array.&lt;function()&gt;` , callbacks executed when promise is resolved or rejected
-**callbacks.fail**: `Array.&lt;function()&gt;` , callbacks executed when promise is rejected
-**callbacks.progress**: `Array.&lt;function()&gt;` , callbacks executed when promise notifies
+
+**callbacks.done**: `Array.<function()>` , callbacks executed when promise is resolved
+
+**callbacks.always**: `Array.<function()>` , callbacks executed when promise is resolved or rejected
+
+**callbacks.fail**: `Array.<function()>` , callbacks executed when promise is rejected
+
+**callbacks.progress**: `Array.<function()>` , callbacks executed when promise notifies
 
 # WaitForIt
 
