@@ -23,7 +23,7 @@ simple wrapper of the [WaitForIt](#waitforit) class with the WaitForIt#condition
 
 **maxInterval**: `Number` , the maximum number of checks which will be executed before being rejected
 
-**function**: `condition` , which will resolve the promise when it returns true
+**condition**: `function` , which will resolve the promise when it returns true
 
 **callbacks**: `Object` , contains all promise callbacks
 
