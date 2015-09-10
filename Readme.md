@@ -14,6 +14,8 @@ notify every time the condition is checked
 ## Class: WaitForNode
 simple wrapper of the [WaitForIt](#waitforit) class with the WaitForIt#condition checking the presence of specific dom element(s)
 
+* * *
+
 ## Class: WaitForIt
 
 
@@ -34,10 +36,6 @@ simple wrapper of the [WaitForIt](#waitforit) class with the WaitForIt#condition
 **callbacks.fail**: `Array.<function()>` , callbacks executed when promise is rejected
 
 **callbacks.progress**: `Array.<function()>` , callbacks executed when promise notifies
-
-# WaitForIt
-
-* * *
 
 ### WaitForIt.start() 
 
