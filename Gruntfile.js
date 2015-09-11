@@ -3,6 +3,7 @@
  */
 module.exports = function(grunt) {
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         jsdoc : {
             dist : {
                 src: ['src/*.js', 'test/*.js'],
@@ -34,5 +35,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsdoc');
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('watch', ['watch']);
+    grunt.registerTask('default', ['uglify', 'jsdoc']);
 };
