@@ -4,9 +4,7 @@
 **Version:** 1.0
 
 **Overview:** Implements the WaitForIt and WaitForNode classes (Promise-like implementation).
-WaitFor It resolves when the passed by condition is true
-rejects when the maximum number of iterations has been reached
-notify every time the condition is checked
+WaitForIt resolves when the passed by condition returns a truthy value, rejects when the maximum number of iterations has been reached and notify every time the condition is executed
 
 
 * * *
