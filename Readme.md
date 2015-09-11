@@ -113,8 +113,9 @@ adds a done callback which will be executed when promise is resolved
 **Returns**: `WaitForIt`, current instance
 
 **Example**:
+Add a success callback printing the number of checks before promise was resolved
+
 ```js
-<caption>Add a success callback printing the number of checks before promise was resolved</caption>
 window.cd = undefined;
 var test = new WaitForIt(()=>window.cd);
 test.start().done(()=>console.warn("Resolved after " + test.trials + "th notification"));
@@ -133,8 +134,9 @@ adds a fail  callback which will be executed when promise is rejected
 **Returns**: `WaitForIt`, current instance
 
 **Example**:
+Add a fail callback printing the code of the condition fonction
+
 ```js
-<caption>add a fail callback printing the code of the condition fonction</caption>
 window.cd = undefined;
 var test = new WaitForIt(()=>window.cd);
 test.fail(()=>console.warn("Failed to resolve: \n" + test.condition.toString() + "\n after " + test.trials + " iterations."));
@@ -154,8 +156,9 @@ adds an always callback which will be executed when promise is rejected or resol
 **Returns**: `WaitForIt`, current instance
 
 **Example**:
+Add an always callback printing the status of promise.
+
 ```js
-<caption>add an always callback printing the status of promise</caption>
 window.cd = undefined;
 var test = new WaitForIt(()=>window.randomVar);
 var test2 = new WaitForIt(()=> window.cd);
