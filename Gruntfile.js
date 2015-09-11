@@ -10,17 +10,29 @@ module.exports = function(grunt) {
                     destination: 'jsdoc'
                 }
             }
-        }
-    });
-    grunt.initConfig({
+        },
         uglify: {
             my_target: {
                 files: {
                     'dest/WaitForIt.min.js': ['src/WaitForIt.js']
                 }
             }
+        },
+        watch: {
+            options: {
+                dateFormat: function(time) {
+                    grunt.log.writeln('The watch finished in ' + time + 'ms at' + (new Date()).toString());
+                    grunt.log.writeln('Waiting for more changes...');
+                }
+            },
+            scripts: {
+                files: '**/*.js',
+                tasks: ['jsdoc', 'uglify']
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.registerTask('default', ['watch']);
 };
