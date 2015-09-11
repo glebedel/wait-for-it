@@ -63,6 +63,7 @@ WaitForIt.prototype = {
     /**
      * current state of the promise can be: "stalled", "pending", "resolved" and "rejected"
      * @type {string}
+     * @instance
      * @memberof WaitForIt
      */
     state: "stalled",
