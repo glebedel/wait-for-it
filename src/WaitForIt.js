@@ -236,6 +236,7 @@ WaitForIt.prototype = {
 
 /**
  * simple wrapper of the {@link WaitForIt} class with the {@link WaitForIt#condition} checking the presence of specific dom element(s)
+ * @param {!string} selector css selector of the element we are waiting for
  * @param {?Object} settings contains all the settings used for the promise
  * @param {?function} settings.done callback executed when promise is resolved (condition is true)
  * @param {?function} settings.progress callback executed when @mention condition is checked
@@ -243,7 +244,6 @@ WaitForIt.prototype = {
  * @param {?function} settings.always callback executed when promise is resolved or rejected
  * @param {?Number} settings.intervalTime the time between each condition checks in ms
  * @param {?Number} settings.maxInterval the maximum number of checks which will be executed before being rejected
- * @param {!string} selector css selector of the element we are waiting for
  * @augments WaitForIt
  * @constructor
  */
